@@ -1,0 +1,69 @@
+name: on PR
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'modules/**/*.tf'
+      - 'environments/**/*.tf'
+
+jobs:
+  changed_files:
+    name: Detect changed files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4 # v4.2.2
+        with:
+          fetch-depth: 0 # Fetch all history for all branches and tags
+
+      - id: changed_files
+        name: Get Changed files
+        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c #v46.0.5
+        with:
+          files: |
+            modules/**/*.tf
+            environments/**/*.tf
+
+      - name: List all changed files
+        if: steps.changed_files.outputs.any_changed == 'true'
+        env:
+          CHANGED_FILES: ${{ steps.changed_files.outputs.all_changed_files }}
+        run: |
+          for file in ${CHANGED_FILES}; do
+            echo "File: $file"
+          done
+    outputs:
+      all_changed_files: ${{ steps.changed_files.outputs.all_changed_files }}
+
+  terraform:
+    name: Terraform
+    runs-on: ubuntu-latest
+    needs: changed_files
+    permissions:
+      pull-requests: write
+    strategy:
+      matrix:
+        changed_files: ${{ fromJson(needs.changed_files.outputs.all_changed_files) }}
+    steps:
+      - name: Echo matrix
+        run: echo ${{ matrix.changed_files }}
+
+      - uses: actions/checkout@v4 # v4.2.2
+        with:
+          fetch-depth: 0 # Fetch all history for all branches and tags
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.1.7"
+
+      - name: Terraform Init
+        working-directory: ${{ matrix.changed_files }}
+        run: |
+          terraform init -no-color -input=false
+
+      - name: Terraform Plan
+        working-directory: ${{ matrix.changed_files }}
+        run: |
+          terraform plan -no-color -input=false -out=tfplan
+          terraform show -json tfplan > tfplan.json
