@@ -23,9 +23,11 @@ jobs:
         with:
           matrix: true
           dir_names: "true"
-          files: |
-            modules/**/*.tf
-            environments/**/*.tf
+          files_yaml: |
+            modules:
+              - modules/**/*.tf
+            environments:
+              - environments/**/*.tf
 
       - name: List all changed files
         if: steps.changed_files.outputs.any_changed == 'true'
@@ -37,16 +39,18 @@ jobs:
           done
     outputs:
       all_changed_files: ${{ steps.changed_files.outputs.all_changed_files }}
+      module_changed_dir: ${{ steps.changed_files.outputs.modules_all_changed_files }}
+      environments_changed_dir: ${{ steps.changed_files.outputs.environments_all_changed_files }}
 
   terraform:
-    name: Terraform
+    name: Terraform Environment
     runs-on: ubuntu-latest
     needs: changed_files
     permissions:
       pull-requests: write
     strategy:
       matrix:
-        changed_files: ${{ fromJson(needs.changed_files.outputs.all_changed_files) }}
+        changed_files: ${{ fromJson(needs.changed_files.outputs.environments_changed_dir) }}
     steps:
       - name: Echo matrix
         run: echo ${{ matrix.changed_files }}
