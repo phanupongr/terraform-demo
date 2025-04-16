@@ -22,6 +22,7 @@ jobs:
         uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c #v46.0.5
         with:
           matrix: true
+          dir_names: "true"
           files: |
             modules/**/*.tf
             environments/**/*.tf
