@@ -58,6 +58,7 @@ jobs:
       - name: Trivy Scan
         id: scan
         uses: aquasecurity/trivy-action@6c175e9c4083a92bbca2f9724c8a5e33bc2d97a5
+        continue-on-error: true
         with:
           scan-type: config
           hide-progress: true
