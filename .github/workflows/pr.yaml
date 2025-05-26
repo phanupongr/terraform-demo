@@ -79,7 +79,7 @@ jobs:
             const fs = require('fs');
             const report = fs.readFileSync('trivy.txt', 'utf8');
             const output = `Trivy report:
-            \`\`\`\n
+            \`\`\`hcl\n
             ${report.length > 0 ? report : 'No issues found'}
             \`\`\`
 
