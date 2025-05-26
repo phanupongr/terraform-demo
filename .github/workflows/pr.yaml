@@ -77,7 +77,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs = require('fs');
-            const report = fs.readFileSync('trivy-report.txt', 'utf8');
+            const report = fs.readFileSync('trivy.txt', 'utf8');
             const output = `Trivy report:
             \`\`\`\n
             ${report.length > 0 ? report : 'No issues found'}
