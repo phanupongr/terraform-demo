@@ -61,7 +61,7 @@ jobs:
       pull-requests: write
     strategy:
       matrix:
-        changed_dir: ${{ fromJson(needs.changed_files.outputs.all_changed_files) }}
+        changed_dir: ${{ fromJson(needs.changed_files.outputs.environments_changed_dir) }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
