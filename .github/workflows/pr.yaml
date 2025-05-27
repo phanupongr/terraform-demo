@@ -191,7 +191,7 @@ jobs:
 
       - name: Setup env
         run: |
-          tf_dir_path="${{ github.workspace }}/${{ matrix.changed_dir }}"
+          tf_dir_path="${{ github.workspace }}/${{ matrix.changed_files }}"
           log_file_path="/tmp/$(basename $tf_dir_path).txt"
 
           echo "TF_DIR_PATH=$tf_dir_path" >> $GITHUB_ENV
@@ -214,7 +214,7 @@ jobs:
       - name: Setup TF Plan
         working-directory: ${{ matrix.changed_files }}
         run: |
-          echo "## Change detected in the following directories: \`${{ matrix.changed_dir }}\` 🚀" >>  ${{ env.LOG_FILE_PATH }}
+          echo "## Change detected in the following directories: \`${{ matrix.changed_files }}\` 🚀" >>  ${{ env.LOG_FILE_PATH }}
           # echo "#### Terraform Initialization ⚙️ ${{ steps.init.outcome }}" >>  ${{ env.LOG_FILE_PATH }}
           echo "#### Terraform Plan 📖 ${{ steps.plan.outcome }}" >>  ${{ env.LOG_FILE_PATH }}
           echo "\`\`\`hcl" >>  ${{ env.LOG_FILE_PATH }}
@@ -227,7 +227,7 @@ jobs:
         id: pr
         with:
           issue-number: ${{ github.event.number }}
-          body-includes: "## Change detected in the following directories: ${{ matrix.changed_dir }} 🚀"
+          body-includes: "## Change detected in the following directories: ${{ matrix.changed_files }} 🚀"
 
       - name: Create PR comment
         if: steps.pr.outputs.comment-id == ''
