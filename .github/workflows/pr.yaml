@@ -31,7 +31,7 @@ jobs:
       - name: List all changed files
         if: steps.changed_files.outputs.any_changed == 'true'
         env:
-          CHANGED_FILES: ${{ steps.changed_files.outputs.changed-files-yaml-environments }}
+          CHANGED_FILES: ${{ steps.changed_files.outputs.changed-keys }}
         run: |
           for file in ${CHANGED_FILES}; do
             echo "File: $file"
