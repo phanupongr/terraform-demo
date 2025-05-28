@@ -33,7 +33,7 @@ jobs:
         # env:
           # CF: ${{ steps.changed_files.outputs }}
         run: |
-          echo ${{ steps.changed_files.outputs.all_changed_files }}
+          env
 
           echo ${{ toJSON(steps.changed_files.outputs) }}
     outputs:
