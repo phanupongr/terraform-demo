@@ -30,8 +30,8 @@ jobs:
 
       - name: List all changed files
         # if: steps.changed_files.outputs.any_changed == 'true'
-        env:
-          CF: ${{ steps.changed_files.outputs }}
+        # env:
+          # CF: ${{ steps.changed_files.outputs }}
         run: |
           echo ${{ toJSON(steps.changed_files.outputs) }}
     outputs:
