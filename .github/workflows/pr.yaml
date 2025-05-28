@@ -30,8 +30,10 @@ jobs:
 
       - name: List all changed files
         # if: steps.changed_files.outputs.any_changed == 'true'
+        env:
+          CF: ${{ steps.changed_files.outputs }}
         run: |
-          echo ${{ steps.changed_files.outputs }}
+          echo ${CF}
     outputs:
       all_changed_files: ${{ steps.changed_files.outputs.all_changed_files }}
       module_changed_dir: ${{ steps.changed_files.outputs.modules_all_changed_files }}
