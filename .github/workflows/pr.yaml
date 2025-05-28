@@ -35,6 +35,8 @@ jobs:
         run: |
           env
 
+          printf "${{ join(steps.changed_files.output.*, '\n') }}"
+
           echo ${{ toJSON(steps.changed_files.outputs) }}
     outputs:
       all_changed_files: ${{ steps.changed_files.outputs.all_changed_files }}
