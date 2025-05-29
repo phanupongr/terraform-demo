@@ -209,7 +209,6 @@ jobs:
         working-directory: ${{ matrix.changed_files }}
         run: |
           echo "## Change detected in the following directories: \`${{ matrix.changed_files }}\` 🚀" >>  ${{ env.LOG_FILE_PATH }}
-          # echo "#### Terraform Initialization ⚙️ ${{ steps.init.outcome }}" >>  ${{ env.LOG_FILE_PATH }}
           echo "#### Terraform Plan 📖 ${{ steps.plan.outcome }}" >>  ${{ env.LOG_FILE_PATH }}
           echo "\`\`\`hcl" >>  ${{ env.LOG_FILE_PATH }}
           echo "$(cat tfplan.txt)" >>  ${{ env.LOG_FILE_PATH }}
