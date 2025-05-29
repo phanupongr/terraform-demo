@@ -220,7 +220,7 @@ jobs:
         id: pr
         with:
           issue-number: ${{ github.event.number }}
-          body-includes: "## Change detected in the following directories: ${{ matrix.changed_files }} 🚀"
+          body-includes: "Change detected in the following directories: ${{ matrix.changed_files }} 🚀"
 
       - name: Create PR comment
         if: steps.pr.outputs.comment-id == ''
